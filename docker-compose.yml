@@ -1,0 +1,10 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_local
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db  # Volume atual
+      - ./backup/dump:/docker-entrypoint-initdb.d # Script de inicialização
+    restart: always

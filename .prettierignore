@@ -1,0 +1,15 @@
+# logs
+*.log
+
+# dependency directories
+node_modules
+
+# environment variables file
+.env
+
+# compiled files
+dist
+
+# other files
+bitbucket-pipelines.yml
+package-lock.json
