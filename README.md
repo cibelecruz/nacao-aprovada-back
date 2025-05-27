@@ -8,11 +8,30 @@ Antes de começar, certifique-se de ter o seguinte instalado em sua máquina:
 
 - Docker: [Instruções de instalação](https://docs.docker.com/get-docker/)
 - Node.js: [Instruções de instalação](https://nodejs.org/)
-- criar um arquivo ".env" e adicionar "MONGODB_URI"
 - adicionar um arquivo "serviceAccount.json" com as credenciais do firebase
 
+## Variáveis de Ambiente
 
-### Adicionando os passos específicos para rodar o Docker usando WSL (Windows Subsystem for Linux) no README.md
+O projeto utiliza as seguintes variáveis de ambiente que devem ser configuradas no arquivo `.env`:
+
+### Configurações do MongoDB
+- `MONGODB_URI` - URI de conexão com o banco de dados MongoDB
+
+### Configurações do Firebase
+- `STORAGE_BUCKET` - Bucket de armazenamento do Firebase
+- `GOOGLE_APPLICATION_CREDENTIALS` - Caminho para o arquivo de credenciais do Firebase (serviceAccount.json)
+
+### Configurações de Email (SMTP)
+- `SMTP_HOST` - Host do servidor SMTP
+- `SMTP_PORT` - Porta do servidor SMTP
+- `EMAIL` - Email para envio de mensagens
+- `PASS` - Senha do email
+
+### Configurações do Twilio (WhatsApp)
+- `ACCOUNT_SID` - SID da conta Twilio
+- `AUTH_TOKEN` - Token de autenticação do Twilio
+- `NUMBER` - Número do WhatsApp para envio de mensagens
+- `CONTENT_SID` - ID do conteúdo da mensagem do WhatsApp
 
 #### Rodando o Backend com Docker no Windows (WSL)
 
@@ -27,7 +46,7 @@ Certifique-se de que o WSL esteja instalado em sua máquina e que você esteja u
 1. Baixe e instale o Docker Desktop para Windows: [Docker Desktop Download](https://www.docker.com/products/docker-desktop).
 2. Durante a instalação, certifique-se de habilitar a opção de integração com WSL2.
 3. Após a instalação, inicie o Docker Desktop e verifique se ele está rodando.
-
+SS
 ### Passo 3: Configure o WSL com Docker
 
 Abra seu terminal WSL e configure o Docker para funcionar corretamente com o WSL. O Docker Desktop deve detectar automaticamente a instalação do WSL e integrá-la. Certifique-se de que sua distribuição Linux está selecionada nas configurações do Docker Desktop.
@@ -39,3 +58,4 @@ Navegue até o diretório do projeto no terminal WSL e execute os seguintes coma
 ```bash
 docker build -t smart_study_backend .
 docker run -p 8080:8080 smart_study_backend
+```
