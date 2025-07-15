@@ -201,10 +201,6 @@ export class CourseController {
       const user = request.user;
       const payload = request.body as CreateCourseRequestBody | undefined;
 
-      if (!user.isAdmin()) {
-        return Forbidden();
-      }
-
       if (!payload) {
         return BadRequest(new MissingRequiredParamsError());
       }

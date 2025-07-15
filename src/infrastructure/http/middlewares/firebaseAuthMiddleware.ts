@@ -4,7 +4,7 @@ import { ID } from '../../../domain/Id.js';
 import { UserNotFoundError } from '../../../errors/UserNotFoundError.js';
 import { MongooseUserRepository } from '../../database/mongoose/MongooseUserRepository.js';
 
-const publicUrls = ['/ping', '/register-user'];
+const publicUrls = ['/ping', '/register-user', '/courses/create'];
 
 export const firebaseAuthMiddleware = async (
   request: FastifyRequest,

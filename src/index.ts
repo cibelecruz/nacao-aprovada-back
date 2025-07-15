@@ -2,7 +2,8 @@ import 'dotenv/config';
 import fastify from 'fastify';
 import fastifyMulter from 'fastify-multer';
 import { User } from './domain/user/User.js';
-import { initializeApp } from 'firebase-admin/app';
+import { initializeApp, cert } from 'firebase-admin/app';
+import { readFileSync } from 'fs';
 import cors from '@fastify/cors';
 import fastifyEnv from '@fastify/env';
 import { MongoDBConnectorManager } from './infrastructure/database/mongoose/utils/MongoDBConnector.js';
@@ -56,8 +57,15 @@ declare module 'fastify' {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const serviceAccount = JSON.parse(
+  readFileSync('./src/nacao-aprovada-firebase.json', 'utf-8')
+);
+
 initializeApp({
   storageBucket: process.env.STORAGE_BUCKET,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  credential: cert(serviceAccount)
 });
 
 const server = fastify();
