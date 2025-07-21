@@ -233,20 +233,18 @@ await server.register(notificationRoute, { prefix: '/notifications' });
 await server.register(helpContentRoute, { prefix: '/help-content' });
 await server.register(simulationRoute, { prefix: '/simulations' });
 
-const userRepository = new MongooseUserRepository();
+// const userRepository = new MongooseUserRepository(); // Comente essa linha também
 
-const emailScheduler = new EmailScheduler(userRepository);
+// const emailScheduler = new EmailScheduler(userRepository); // Comente essa linha
 
-emailScheduler
-  .setupScheduler()
-  .then(() => {
-    console.log('Agendamento de emails configurado com sucesso.');
-  })
-  .catch((error) => {
-    console.error('Erro ao configurar agendamento de emails:', error);
-  });
-
-const port = 8080;
+// emailScheduler
+//   .setupScheduler()
+//   .then(() => {
+//     console.log('Agendamento de emails configurado com sucesso.');
+//   })
+//   .catch((error) => {
+//     console.error('Erro ao configurar agendamento de emails:', error);
+//   });
 
 new MongoDBConnectorManager(process.env.MONGODB_URI)
   .connect()
