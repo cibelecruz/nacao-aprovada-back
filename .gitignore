@@ -4,3 +4,4 @@ dist
 serviceAccount.json
 google-cloud-sdk
 data
+src/nacao-aprovada-firebase.json
