@@ -58,14 +58,17 @@ declare module 'fastify' {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const serviceAccount = JSON.parse(
-  readFileSync('./src/nacao-aprovada-firebase.json', 'utf-8')
-);
+// const serviceAccount = JSON.parse(
+//   readFileSync('./src/nacao-aprovada-firebase.json', 'utf-8')
+// );
 
 initializeApp({
-  storageBucket: process.env.STORAGE_BUCKET,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  credential: cert(serviceAccount)
+  storageBucket: process.env.STORAGE_BUCKET, // Mantenha este se ainda for usado
+  credential: cert({ // <--- AQUI VAMOS PASSAR AS CREDENCIAIS DIRETAMENTE
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n'), // Converte \\n para quebras de linha reais
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+  }),
 });
 
 const server = fastify();
