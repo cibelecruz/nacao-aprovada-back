@@ -249,7 +249,7 @@ await server.register(simulationRoute, { prefix: '/simulations' });
 new MongoDBConnectorManager(process.env.MONGODB_URI)
   .connect()
   .then(() => {
-    server.listen({ port, host: '0.0.0.0' }, (err, address) => {
+      server.listen({ port: 8080, host: '0.0.0.0' }, (err, address) => {
       if (err) {
         console.error(err);
         process.exit(1);
