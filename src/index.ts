@@ -26,6 +26,7 @@ import { subject } from './mock/lesson/lesson.js';
 import { MongooseUserSubjectsStatusRepository } from './infrastructure/database/mongoose/MongooseUserSubjectsStatusRepository.js';
 import { EventDispatcher } from './shared/EventDispatcher.js';
 import { NextTaskCreationHandler } from './application/handlers/NextTaskCreationHandler.js';
+import { UserSubjectsStatusQuery } from './infrastructure/database/mongoose/UserSubjectsStatusQuery.js';
 import { TaskCreationService } from './domain/task/TaskCreationService.js';
 import { CreateUserFromHotmartPostbackHandler } from './application/handlers/CreateUserFromHotmartPostbackHandler.js';
 import { AnalyticsDashboardHandler } from './application/handlers/AnalyticsCoachDashboardHandler.js';
