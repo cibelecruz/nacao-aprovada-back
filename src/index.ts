@@ -25,7 +25,7 @@ import { MongooseTaskRepository } from './infrastructure/database/mongoose/Mongo
 import { subject } from './mock/lesson/lesson.js';
 import { MongooseUserSubjectsStatusRepository } from './infrastructure/database/mongoose/MongooseUserSubjectsStatusRepository.js';
 import { EventDispatcher } from './shared/EventDispatcher.js';
-import { NextTaskCreationHandler } = from './application/handlers/NextTaskCreationHandler.js';
+import { NextTaskCreationHandler } from './application/handlers/NextTaskCreationHandler.js';
 import { TaskCreationService } from './domain/task/TaskCreationService.js';
 import { CreateUserFromHotmartPostbackHandler } from './application/handlers/CreateUserFromHotmartPostbackHandler.js';
 import { AnalyticsDashboardHandler } from './application/handlers/AnalyticsCoachDashboardHandler.js';
@@ -259,7 +259,7 @@ new MongoDBConnectorManager(process.env.MONGODB_URI)
   .catch((error) => {
     console.error(error);
   });
-  
+
 /* import 'dotenv/config';
 import fastify from 'fastify';
 import fastifyMulter from 'fastify-multer';
