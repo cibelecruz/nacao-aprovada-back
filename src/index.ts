@@ -25,14 +25,13 @@ import { MongooseTaskRepository } from './infrastructure/database/mongoose/Mongo
 import { subject } from './mock/lesson/lesson.js';
 import { MongooseUserSubjectsStatusRepository } from './infrastructure/database/mongoose/MongooseUserSubjectsStatusRepository.js';
 import { EventDispatcher } from './shared/EventDispatcher.js';
-import { NextTaskCreationHandler } from './application/handlers/NextTaskCreationHandler.js';
+import { NextTaskCreationHandler } = from './application/handlers/NextTaskCreationHandler.js';
 import { TaskCreationService } from './domain/task/TaskCreationService.js';
 import { CreateUserFromHotmartPostbackHandler } from './application/handlers/CreateUserFromHotmartPostbackHandler.js';
 import { AnalyticsDashboardHandler } from './application/handlers/AnalyticsCoachDashboardHandler.js';
 import { MongooseUserDailyProgress } from './infrastructure/database/mongoose/MongooseUserDailyProgressDAO.js';
 import { DailyProgressService } from './application/analytics/RegisterDailyProgressService.js';
 import subjectRoutes from './infrastructure/http/routes/subject-routes.js';
-import { UserSubjectsStatusQuery } from './infrastructure/database/mongoose/UserSubjectsStatusQuery.js';
 
 import notificationRoute from './infrastructure/http/routes/notification-route.js';
 import helpContentRoute from './infrastructure/http/routes/help-content-route.js';
@@ -223,16 +222,16 @@ server.post(
   registerUserController.createBulk,
 );
 
-// Rotas com prefixo /coach/ para o dashboard de administração
-await server.register(userRoutes, { prefix: '/coach/users' });
-await server.register(coursesRoutes, { prefix: '/coach/courses' });
-await server.register(taskRoutes, { prefix: '/coach/tasks' });
-await server.register(taskNoteRoutes, { prefix: '/coach/task-note' });
-await server.register(postbackRoutes, { prefix: '/coach/postbacks' });
-await server.register(subjectRoutes, { prefix: '/coach/subjects' });
-await server.register(notificationRoute, { prefix: '/coach/notifications' });
-await server.register(helpContentRoute, { prefix: '/coach/help-content' });
-await server.register(simulationRoute, { prefix: '/coach/simulations' });
+// ROTAS DE ADMIN/COACH SEM O PREFIXO /coach AQUI, POIS SERA INCLUIDO NA API_URL DO FRONTEND
+await server.register(userRoutes, { prefix: '/users' });
+await server.register(coursesRoutes, { prefix: '/courses' });
+await server.register(taskRoutes, { prefix: '/tasks' });
+await server.register(taskNoteRoutes, { prefix: '/task-note' });
+await server.register(postbackRoutes, { prefix: '/postbacks' });
+await server.register(subjectRoutes, { prefix: '/subjects' });
+await server.register(notificationRoute, { prefix: '/notifications' });
+await server.register(helpContentRoute, { prefix: '/help-content' });
+await server.register(simulationRoute, { prefix: '/simulations' });
 
 // Comentei as linhas do EmailScheduler para não causar crash
 // const userRepository = new MongooseUserRepository();
@@ -260,7 +259,7 @@ new MongoDBConnectorManager(process.env.MONGODB_URI)
   .catch((error) => {
     console.error(error);
   });
-
+  
 /* import 'dotenv/config';
 import fastify from 'fastify';
 import fastifyMulter from 'fastify-multer';
