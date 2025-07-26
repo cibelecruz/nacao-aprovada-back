@@ -19,10 +19,10 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Pedro Henrique",
-  "email": "pedro.hmattos19@gmail.com",
-  "cpf": "41111754810",
-  "phone": "+55 11 91234-5678",
+  "name": "aluno teste",
+  "email": "testeteste@gmail.com",
+  "cpf": "48699028857",
+  "phone": "+55 12 91234-5678",
   "role": "admin",
   "preferedStartDate": "2024-06-01",
   "studyAvailability": {
@@ -36,7 +36,7 @@ Content-Type: application/json
   },
   "courses": [
     {
-      "id": "3d42c43d-64a5-4799-9802-5ab58d375336",
+      "id": "f755f350-094f-44ad-88b0-7c1eeb52cada",
       "registrationDate": "2024-06-01",
       "expirationDate": "2025-06-01"
     }
