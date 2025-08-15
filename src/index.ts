@@ -68,7 +68,7 @@ initializeApp({
 
 const server = fastify();
 await server.register(cors, {
-  origin: ['http://localhost:3000', 'https://www.nacaoaprovada.com.br/'],
+  origin: 'https://www.nacaoaprovada.com.br',
 });
 
 await server.register(fastifyEnv, {
