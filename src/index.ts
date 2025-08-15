@@ -57,14 +57,9 @@ declare module 'fastify' {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-// const serviceAccount = JSON.parse(
-//   readFileSync('./src/nacao-aprovada-firebase.json', 'utf-8')
-// );
-
 initializeApp({
   storageBucket: process.env.STORAGE_BUCKET, // Mantenha este se ainda for usado
-  credential: cert({ // <--- AQUI VAMOS PASSAR AS CREDENCIAIS DIRETAMENTE
+  credential: cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
     privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n'), // Converte \\n para quebras de linha reais
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
@@ -73,7 +68,7 @@ initializeApp({
 
 const server = fastify();
 await server.register(cors, {
-  origin: '*',
+  origin: ['http://localhost:3000', 'https://www.nacaoaprovada.com.br/'],
 });
 
 await server.register(fastifyEnv, {
@@ -228,7 +223,7 @@ server.post(
 // Rotas GERAIS (ex: login, registro, ping, subjects-list, help-content/ia - que não dependem de perfil)
 // O front-end chama diretamente essas rotas (ex: /register-user, /users/current-user)
 // ROTAS DE USUÁRIO E NOTIFICAÇÃO ESTÃO AQUI PORQUE O ALUNO AS ACESSA SEM PREFIXO DE PERFIL
-await server.register(userRoutes, { prefix: '/users' });             // Ex: /users/current-user (para aluno)
+await server.register(userRoutes, { prefix: '/users' }); // Ex: /users/current-user (para aluno)
 await server.register(notificationRoute, { prefix: '/notifications' }); // Ex: /notifications/student (para aluno)
 await server.register(helpContentRoute, { prefix: '/help-content' }); // Ex: /help-content/ia
 await server.register(simulationRoute, { prefix: '/simulations' }); // Ex: /simulations/...?
@@ -240,7 +235,7 @@ await server.register(subjectRoutes, { prefix: '/subjects' });
 
 // Rotas para o perfil COACH/ADMIN
 // Estas rotas TERÃO o prefixo '/coach'. O front-end deverá chamar com /coach/...
-await server.register(userRoutes, { prefix: '/coach/users' });             // Ex: /coach/users/current-user (para coach)
+await server.register(userRoutes, { prefix: '/coach/users' }); // Ex: /coach/users/current-user (para coach)
 await server.register(coursesRoutes, { prefix: '/coach/courses' });
 await server.register(taskRoutes, { prefix: '/coach/tasks' });
 await server.register(taskNoteRoutes, { prefix: '/coach/task-note' });
@@ -251,7 +246,6 @@ await server.register(simulationRoute, { prefix: '/coach/simulations' });
 await server.register(notificationRoute, { prefix: '/coach/notifications' }); // Ex: /coach/notifications/list (para coach)
 
 // >>> FIM DO BLOCO DE REGISTRO DE ROTAS <<<
-
 
 // Comentei as linhas do EmailScheduler para não causar crash
 // const userRepository = new MongooseUserRepository();
@@ -270,7 +264,7 @@ await server.register(notificationRoute, { prefix: '/coach/notifications' }); //
 new MongoDBConnectorManager(process.env.MONGODB_URI)
   .connect()
   .then(() => {
-      server.listen({ port: 8080, host: '0.0.0.0' }, (err, address) => {
+    server.listen({ port: 8080, host: '0.0.0.0' }, (err, address) => {
       if (err) {
         console.error(err);
         process.exit(1);
