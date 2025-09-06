@@ -5,7 +5,7 @@ import { DeleteFlashCardUseCase } from '../../../application/flashCard/DeleteFla
 import { FindFlashCardByIdUseCase } from '../../../application/flashCard/FindFlashCardByIdUseCase.js';
 import { MongooseFlashCardRepository } from '../../database/mongoose/MongooseFlashCardRepository.js';
 import { FlashCardController } from '../controllers/flashCard/FlashCardController.js';
-import type { FastifyInstance, FastifyPluginOptions } from 'fastify';
+import { FastifyInstance, FastifyPluginOptions } from 'fastify';
 import { firebaseAuthMiddleware } from '../middlewares/firebaseAuthMiddleware.js';
 
 const flashCardRepository = new MongooseFlashCardRepository();
@@ -30,4 +30,6 @@ export default function (
   server.patch('/', flashCardController.updateFlashCard);
   server.delete('/:id', flashCardController.deleteFlashCard);
   server.get('/:id', flashCardController.findFlashCardById);
+
+  done();
 }
