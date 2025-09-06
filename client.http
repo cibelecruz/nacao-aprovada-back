@@ -1,4 +1,4 @@
-@baseUrl = https://nacao-aprovada-back-production.up.railway.app
+@baseUrl = http://localhost:8080
 
 ###
 # Create rooms
@@ -20,10 +20,10 @@ Content-Type: application/json
 
 {
   "name": "Matteus varlesse",
-  "email": "matteus.varlesse@genesis-dataculture.com",
+  "email": "matteusCoach@gmail.com",
   "cpf": "48699028857",
   "phone": "+55 12 91234-5678",
-  "role": "student",
+  "role": "admin",
   "preferedStartDate": "2024-06-01",
   "studyAvailability": {
     "monday": 120,
@@ -36,7 +36,7 @@ Content-Type: application/json
   },
   "courses": [
     {
-      "id": "ca4cf3aa-d713-496c-9d88-4b0722a17d11",
+      "id": "7e19b6aa-650b-47dc-a8ee-6c2e892f854d",
       "registrationDate": "2024-06-01",
       "expirationDate": "2025-06-01"
     }

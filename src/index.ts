@@ -33,7 +33,7 @@ import { AnalyticsDashboardHandler } from './application/handlers/AnalyticsCoach
 import { MongooseUserDailyProgress } from './infrastructure/database/mongoose/MongooseUserDailyProgressDAO.js';
 import { DailyProgressService } from './application/analytics/RegisterDailyProgressService.js';
 import subjectRoutes from './infrastructure/http/routes/subject-routes.js';
-
+import flashCardRoute from './infrastructure/http/routes/flash-card-route.js';
 import notificationRoute from './infrastructure/http/routes/notification-route.js';
 import helpContentRoute from './infrastructure/http/routes/help-content-route.js';
 import { upload } from './infrastructure/http/middlewares/fastifyMulterMiddleware.js';
@@ -48,7 +48,6 @@ import { UpdateHelpContentUseCase } from './application/helpContent/UpdateHelpCo
 import { ToggleHelpContentAccessUseCase } from './application/helpContent/ToggleHelpContentAccessUseCase.js';
 import { FetchIAHelpContentUseCase } from './application/helpContent/FetchIAHelpContentUseCase.js';
 import { GetHelpContentUseCase } from './application/helpContent/GetHelpContentUseCase.js';
-import { EmailScheduler } from './application/handlers/SendWeeklyNotificationHandler.js';
 import { SendUserPasswordHandler } from './application/handlers/SendUserPasswordHandler.js';
 
 declare module 'fastify' {
@@ -68,7 +67,7 @@ initializeApp({
 
 const server = fastify();
 await server.register(cors, {
-  origin: 'https://www.nacaoaprovada.com.br',
+  origin: ['https://www.nacaoaprovada.com.br', '*'],
   credentials: true,
 });
 
@@ -233,6 +232,7 @@ await server.register(taskRoutes, { prefix: '/tasks' });
 await server.register(taskNoteRoutes, { prefix: '/task-note' });
 await server.register(postbackRoutes, { prefix: '/postbacks' });
 await server.register(subjectRoutes, { prefix: '/subjects' });
+await server.register(flashCardRoute, { prefix: '/flash-cards' });
 
 // Rotas para o perfil COACH/ADMIN
 // Estas rotas TERÃO o prefixo '/coach'. O front-end deverá chamar com /coach/...
