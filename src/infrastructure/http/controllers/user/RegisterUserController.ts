@@ -24,7 +24,6 @@ import { InvalidIdError } from '../../../../errors/InvalidIdError.js';
 import { Role } from '../../../../domain/user/Role.js';
 import { readFileSync, unlinkSync } from 'fs';
 import type { RegisterManyUsersUseCase } from '../../../../application/user/RegisterManyUsersUseCase.js';
-import { SendUserPasswordHandler } from '../../../../application/handlers/SendUserPasswordHandler.js';
 
 type UserCourseRequest = {
   id?: string;
@@ -226,17 +225,9 @@ export class RegisterUserController {
           role: roleOrError.value,
         });
 
-      const sendUserPasswordHandler = new SendUserPasswordHandler();
-
       if (registerUserOrError.isLeft()) {
         return InternalServerError(registerUserOrError.value);
       }
-
-      await sendUserPasswordHandler.sendPasswordForEmail({
-        userEmail: registerUserOrError.value.email.value,
-        userPassword: registerUserOrError.value.password.value,
-        userName: name.value,
-      });
 
       return OK(registerUserOrError.value.id.value);
     } catch (error) {

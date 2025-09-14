@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:8080
+
+###
+# Create rooms
+# @name createRoom
+POST {{baseUrl}}/courses/create
+Accept: application/json
+Content-Type: application/json
+
+{
+    "institution": "Instituto Federal de São Paulo",
+    "jobPosition": "Professor"
+}
+
+###
+
+POST {{baseUrl}}/register-user
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Matteus varlesse",
+  "email": "matteusCoach@gmail.com",
+  "cpf": "48699028857",
+  "phone": "+55 12 91234-5678",
+  "role": "admin",
+  "preferedStartDate": "2024-06-01",
+  "studyAvailability": {
+    "monday": 120,
+    "tuesday": 90,
+    "wednesday": 60,
+    "thursday": 30,
+    "friday": 0,
+    "saturday": 0,
+    "sunday": 0
+  },
+  "courses": [
+    {
+      "id": "7e19b6aa-650b-47dc-a8ee-6c2e892f854d",
+      "registrationDate": "2024-06-01",
+      "expirationDate": "2025-06-01"
+    }
+  ]
+}
