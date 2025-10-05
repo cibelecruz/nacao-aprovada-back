@@ -49,6 +49,9 @@ import { ToggleHelpContentAccessUseCase } from './application/helpContent/Toggle
 import { FetchIAHelpContentUseCase } from './application/helpContent/FetchIAHelpContentUseCase.js';
 import { GetHelpContentUseCase } from './application/helpContent/GetHelpContentUseCase.js';
 import { SendUserPasswordHandler } from './application/handlers/SendUserPasswordHandler.js';
+import express from 'express';
+import testEmailRouter from './infrastructure/http/routes/test-email.route.ts';
+
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -275,4 +278,14 @@ new MongoDBConnectorManager(process.env.MONGODB_URI)
   })
   .catch((error) => {
     console.error(error);
+  });
+
+
+  const app = express();
+
+  app.use(express.json());
+  app.use('/api', testEmailRouter); // registra a rota de teste
+  
+  app.listen(process.env.PORT || 3000, () => {
+    console.log('🚀 Server running...');
   });
