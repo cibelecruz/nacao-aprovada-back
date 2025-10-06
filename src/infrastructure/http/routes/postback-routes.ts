@@ -19,6 +19,7 @@ import { Phone } from '../../../domain/user/Phone.js';
 import { Role } from '../../../domain/user/Role.js';
 import { ID } from '../../../domain/Id.js';
 import { CalendarDate } from '../../../domain/CalendarDate.js';
+import { SendUserPasswordHandler } from '../../../application/handlers/SendUserPasswordHandler.js';
 
 const eventDispatcher = EventDispatcher.getInstance();
 
@@ -153,6 +154,8 @@ export default function (
     ),
   );
 
+  const sendUserPasswordHandler = new SendUserPasswordHandler();
+
   server.post('/register', async (request, reply) => {
     try {
       const postbackData = request.body as HotmartPostbackData;
@@ -215,13 +218,30 @@ export default function (
             email: result.value.email.value,
           });
 
-          // Atualizar status do postback
+          const user = {
+            name: nameOrError.value.value,
+            phone: phoneOrError.value,
+            password: result.value.password.value,
+            email: result.value.email.value,
+          };
+
+          const { success, error } =
+            await sendUserPasswordHandler.sendPasswordForEmail({
+              userEmail: user.email,
+              userName: user.name,
+              userPassword: user.password,
+            });
+
+          if (!success) {
+            return reply.status(503).send({
+              error,
+            });
+          }
+
           model.status = 'processed';
           await model.save();
         } catch (userRegistrationError) {
           console.error('Erro ao registrar usuário:', userRegistrationError);
-
-          // Atualizar status do postback com erro
           model.status = 'error';
           await model.save();
         }

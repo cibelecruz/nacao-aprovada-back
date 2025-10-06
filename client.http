@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "name": "Matteus varlesse",
-  "email": "testeCoach@teste.com",
+  "email": "testeEmail4@teste.com",
   "cpf": "48699028857",
   "phone": "+55 12 91234-5678",
   "role": "admin",

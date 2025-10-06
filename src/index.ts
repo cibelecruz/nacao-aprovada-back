@@ -158,29 +158,32 @@ eventDispatcher.registerHandler(
   ),
 );
 
-const registerUserController = new RegisterUserController({
-  registerUserUseCase: new RegisterUserUseCase(
-    new MongooseUserRepository(),
-    new FirebaseAuthService(),
-    new EnrollmentService(
+const registerUserController = new RegisterUserController(
+  {
+    registerUserUseCase: new RegisterUserUseCase(
       new MongooseUserRepository(),
-      new MongooseCourseRepository(),
-      new MongooseTaskRepository(eventDispatcher),
-      new MongooseUserSubjectsStatusRepository(),
+      new FirebaseAuthService(),
+      new EnrollmentService(
+        new MongooseUserRepository(),
+        new MongooseCourseRepository(),
+        new MongooseTaskRepository(eventDispatcher),
+        new MongooseUserSubjectsStatusRepository(),
+      ),
     ),
-  ),
-  registerManyUsersUseCase: new RegisterManyUsersUseCase(
-    new MongooseUserRepository(),
-    new FirebaseAuthService(),
-    new EnrollmentService(
+    registerManyUsersUseCase: new RegisterManyUsersUseCase(
       new MongooseUserRepository(),
-      new MongooseCourseRepository(),
-      new MongooseTaskRepository(eventDispatcher),
-      new MongooseUserSubjectsStatusRepository(),
+      new FirebaseAuthService(),
+      new EnrollmentService(
+        new MongooseUserRepository(),
+        new MongooseCourseRepository(),
+        new MongooseTaskRepository(eventDispatcher),
+        new MongooseUserSubjectsStatusRepository(),
+      ),
+      new SendUserPasswordHandler(),
     ),
-    new SendUserPasswordHandler(),
-  ),
-});
+  },
+  new SendUserPasswordHandler(),
+);
 
 server.get('/subjects-list/:subejctId', async (request, reply) => {
   try {
