@@ -50,6 +50,7 @@ import { FetchIAHelpContentUseCase } from './application/helpContent/FetchIAHelp
 import { GetHelpContentUseCase } from './application/helpContent/GetHelpContentUseCase.js';
 import { SendUserPasswordHandler } from './application/handlers/SendUserPasswordHandler.js';
 
+
 declare module 'fastify' {
   interface FastifyRequest {
     user: User;
@@ -60,12 +61,12 @@ initializeApp({
   storageBucket: process.env.STORAGE_BUCKET, // Mantenha este se ainda for usado
   credential: cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n'), // Converte \\n para quebras de linha reais
+    privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n'), // Coonverte \\n para quebras de linha reais
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
   }),
 });
 
-const server = fastify();
+const server = fastify();            
 await server.register(cors, {
   origin: ['https://www.nacaoaprovada.com.br', '*'],
   credentials: true,
