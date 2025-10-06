@@ -49,8 +49,6 @@ import { ToggleHelpContentAccessUseCase } from './application/helpContent/Toggle
 import { FetchIAHelpContentUseCase } from './application/helpContent/FetchIAHelpContentUseCase.js';
 import { GetHelpContentUseCase } from './application/helpContent/GetHelpContentUseCase.js';
 import { SendUserPasswordHandler } from './application/handlers/SendUserPasswordHandler.js';
-import express from 'express';
-import testEmailRouter from './infrastructure/http/routes/test-email.route.ts';
 
 
 declare module 'fastify' {
@@ -63,12 +61,12 @@ initializeApp({
   storageBucket: process.env.STORAGE_BUCKET, // Mantenha este se ainda for usado
   credential: cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n'), // Converte \\n para quebras de linha reais
+    privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n'), // Coonverte \\n para quebras de linha reais
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
   }),
 });
 
-const server = fastify();
+const server = fastify();            
 await server.register(cors, {
   origin: ['https://www.nacaoaprovada.com.br', '*'],
   credentials: true,
@@ -278,14 +276,4 @@ new MongoDBConnectorManager(process.env.MONGODB_URI)
   })
   .catch((error) => {
     console.error(error);
-  });
-
-
-  const app = express();
-
-  app.use(express.json());
-  app.use('/api', testEmailRouter); // registra a rota de teste
-  
-  app.listen(process.env.PORT || 3000, () => {
-    console.log('🚀 Server running...');
   });
