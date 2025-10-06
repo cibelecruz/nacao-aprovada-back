@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "name": "Matteus varlesse",
-  "email": "matteusCoach@gmail.com",
+  "email": "testeCoach@teste.com",
   "cpf": "48699028857",
   "phone": "+55 12 91234-5678",
   "role": "admin",
@@ -36,7 +36,7 @@ Content-Type: application/json
   },
   "courses": [
     {
-      "id": "7e19b6aa-650b-47dc-a8ee-6c2e892f854d",
+      "id": "a7fcc405-be26-44eb-92a8-04e086e1afee",
       "registrationDate": "2024-06-01",
       "expirationDate": "2025-06-01"
     }
