@@ -230,7 +230,7 @@ await server.register(simulationRoute, { prefix: '/simulations' }); // Ex: /simu
 await server.register(coursesRoutes, { prefix: '/courses' });
 await server.register(taskRoutes, { prefix: '/tasks' });
 await server.register(taskNoteRoutes, { prefix: '/task-note' });
-await server.register(postbackRoutes, { prefix: '/postbacks' });
+await server.register(postbackRoutes, { prefix: '/webhooks' });
 await server.register(subjectRoutes, { prefix: '/subjects' });
 await server.register(flashCardRoute, { prefix: '/flash-cards' });
 
