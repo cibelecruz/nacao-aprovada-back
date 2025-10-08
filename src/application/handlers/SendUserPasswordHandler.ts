@@ -1,21 +1,7 @@
-import nodemailer, { Transporter } from 'nodemailer';
 import { htmlForSendPassword } from './htmlForSendPassword.js';
+import { resend } from '../../infrastructure/services/resend/index.js';
 
 export class SendUserPasswordHandler {
-  private transporter: Transporter;
-
-  constructor() {
-    this.transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: Number(process.env.SMTP_PORT) === 465 ? true : false,
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASS,
-      },
-    });
-  }
-
   async sendPasswordForEmail({
     userEmail,
     userName,
@@ -25,24 +11,51 @@ export class SendUserPasswordHandler {
     userPassword: string;
     userName: string;
   }) {
-    const mail = process.env.EMAIL;
-    const emailHtml = htmlForSendPassword({
-      name: userName,
-      password: userPassword,
-    });
+    try {
+      const mail = process.env.EMAIL;
+      const emailHtml = htmlForSendPassword({
+        name: userName,
+        password: userPassword,
+      });
 
-    if (!mail) {
-      throw new Error('Email not found');
-    }
+      if (!mail) {
+        return {
+          error: 'EMAIL environment variable is not configured',
+          success: false,
+        };
+      }
 
-    await this.transporter
-      .sendMail({
+      if (!resend) {
+        console.warn('Resend service not available. Email not sent.');
+        return {
+          error: 'Email service not configured (RESEND_API_KEY missing)',
+          success: false,
+        };
+      }
+
+      const { data, error } = await resend.emails.send({
         from: mail,
         to: userEmail,
-        subject: 'Sua senha de acesso',
+        subject: 'Seu acesso a Nação Aprovada',
         html: emailHtml,
-      })
-      .then(() => console.log(`Email sent to ${userEmail}`))
-      .catch((error) => console.error(error));
+      });
+
+      if (error) {
+        console.error('Resend API error:', error);
+        return {
+          error: error.message || 'Failed to send email',
+          success: false,
+        };
+      }
+
+      return { data, success: true };
+    } catch (error) {
+      console.error('SendUserPasswordHandler error:', error);
+      return {
+        error:
+          error instanceof Error ? error.message : 'Unknown error occurred',
+        success: false,
+      };
+    }
   }
 }

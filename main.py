@@ -115,7 +115,7 @@ def migrateSubjects():
     subjects.insert_many(subjects_to_add)
     return True
 
-#-----------------------------------
+#------------------------------------
 # migrate courses to have active and relevance for subjects and for topics
 def migrateCoursesForActiveAndRelevance():
     course_doc = courses.find_one({"_id": "4ad3db6f-5e0e-48e2-81ae-77997aaceb7f"})

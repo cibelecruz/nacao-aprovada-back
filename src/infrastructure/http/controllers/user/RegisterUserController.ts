@@ -24,6 +24,7 @@ import { InvalidIdError } from '../../../../errors/InvalidIdError.js';
 import { Role } from '../../../../domain/user/Role.js';
 import { readFileSync, unlinkSync } from 'fs';
 import type { RegisterManyUsersUseCase } from '../../../../application/user/RegisterManyUsersUseCase.js';
+import type { SendUserPasswordHandler } from '../../../../application/handlers/SendUserPasswordHandler.js';
 
 type UserCourseRequest = {
   id?: string;
@@ -96,7 +97,10 @@ function parseUserCourse(
 }
 
 export class RegisterUserController {
-  constructor(private readonly useCases: RegisterUserControllerUseCases) {}
+  constructor(
+    private readonly useCases: RegisterUserControllerUseCases,
+    private readonly sendUserPasswordHandler: SendUserPasswordHandler,
+  ) {}
 
   private parseUserAvailability(
     rawAvailability: Record<string, number>,
@@ -228,6 +232,19 @@ export class RegisterUserController {
       if (registerUserOrError.isLeft()) {
         return InternalServerError(registerUserOrError.value);
       }
+
+      const { success, error } =
+        await this.sendUserPasswordHandler.sendPasswordForEmail({
+          userEmail: registerUserOrError.value.email.value,
+          userName: name.value,
+          userPassword: registerUserOrError.value.password.value,
+        });
+
+      if (!success) {
+        return InternalServerError(new Error(error));
+      }
+
+      console.log('Email sent to', registerUserOrError.value.email.value);
 
       return OK(registerUserOrError.value.id.value);
     } catch (error) {
