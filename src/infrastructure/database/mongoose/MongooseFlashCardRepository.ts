@@ -2,7 +2,6 @@ import { FlashCard } from '../../../domain/flashCard/FlashCard.js';
 import type { FlashCardRepository } from '../../../domain/flashCard/FlashCardRepository.js';
 import { ID } from '../../../domain/Id.js';
 import { FlashCardModel } from './models/FlashCardModel.js';
-import type { UUID } from 'crypto';
 
 export class MongooseFlashCardRepository implements FlashCardRepository {
   async fetchAllIsNotReady(userId: ID): Promise<FlashCard[]> {
@@ -19,7 +18,8 @@ export class MongooseFlashCardRepository implements FlashCardRepository {
         result: flashCardData.result
           ? Boolean(flashCardData.result)
           : undefined,
-        userId: ID.create(flashCardData.userId as UUID),
+        userId: ID.create(flashCardData.userId),
+        title: flashCardData.title
       });
 
       if (flashCardResult.isLeft()) {
@@ -33,6 +33,7 @@ export class MongooseFlashCardRepository implements FlashCardRepository {
     await new FlashCardModel({
       _id: flashCard.data._id,
       content: flashCard.data.content,
+      title: flashCard.data.title,
       result: flashCard.data.result,
       userId: flashCard.data.userId,
     }).save();
@@ -50,6 +51,7 @@ export class MongooseFlashCardRepository implements FlashCardRepository {
 
     const flashCardResult = FlashCard.create({
       content: flashCardData.content,
+      title: flashCardData.title,
       result: flashCardData.result ? Boolean(flashCardData.result) : undefined,
       userId: ID.create(flashCardData.userId),
     });
@@ -67,6 +69,7 @@ export class MongooseFlashCardRepository implements FlashCardRepository {
       },
       {
         content: flashCard.data.content,
+        title: flashCard.data.title,
         result: flashCard.data.result,
         isReady: flashCard.data.isReady,
       },
@@ -88,10 +91,11 @@ export class MongooseFlashCardRepository implements FlashCardRepository {
     return flashCardsData.map((flashCardData) => {
       const flashCardResult = FlashCard.create({
         content: flashCardData.content,
+        title: flashCardData.title,
         result: flashCardData.result
           ? Boolean(flashCardData.result)
           : undefined,
-        userId: ID.create(flashCardData.userId as UUID),
+        userId: ID.create(flashCardData.userId),
       });
 
       if (flashCardResult.isLeft()) {

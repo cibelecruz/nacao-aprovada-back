@@ -4,6 +4,7 @@ import { ID } from '../Id.js';
 type FlashCardProps = {
   _id: ID;
   content: string;
+  title?: string;
   isReady: boolean;
   result?: boolean;
   userId: ID;
@@ -24,6 +25,10 @@ export class FlashCard {
     this._data.content = content;
   }
 
+  updateTitle(title: string): void {
+    this._data.title = title;
+  }
+
   updateResult(result: boolean) {
     this._data.result = result;
   }
@@ -42,6 +47,7 @@ export class FlashCard {
       new FlashCard({
         _id: ID.create(),
         content: data.content,
+        title: data.title ?? undefined,
         isReady: data.isReady ?? false,
         readyAt: data.readyAt,
         result: data.result,

@@ -6,8 +6,8 @@ import { left, right, type Either } from '../../shared/utils/Either.js';
 
 interface FlashCardDataProps {
   content: string;
+  title?: string;
   userId: ID;
-  result?: boolean;
 }
 
 export class CreateFlashCardUseCase implements UseCase {
@@ -19,7 +19,7 @@ export class CreateFlashCardUseCase implements UseCase {
     const flashCardOrError = FlashCard.create({
       content: flashCardData.content,
       userId: flashCardData.userId,
-      result: flashCardData.result,
+      title: flashCardData.title,
     });
 
     if (flashCardOrError.isLeft()) {

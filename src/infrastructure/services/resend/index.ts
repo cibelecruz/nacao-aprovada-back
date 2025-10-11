@@ -9,3 +9,4 @@ if (!apiKey) {
 }
 
 export const resend = apiKey ? new Resend(apiKey) : null;
+ 

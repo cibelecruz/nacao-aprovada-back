@@ -1,3 +1,4 @@
+import { FlashCard } from '../../domain/flashCard/FlashCard.js';
 import type { FlashCardRepository } from '../../domain/flashCard/FlashCardRepository.js';
 import type { ID } from '../../domain/Id.js';
 import type { UseCase } from '../../shared/UseCase.js';
@@ -12,7 +13,7 @@ export class FindFlashCardByIdUseCase implements UseCase {
 
   async execute(
     findData: FindFlashCardByIdDataProps,
-  ): Promise<Either<Error, { flashCard: any }>> {
+  ): Promise<Either<Error, { flashCard: FlashCard }>> {
     try {
       const flashCard = await this.flashCardRepository.ofId(findData.id);
 

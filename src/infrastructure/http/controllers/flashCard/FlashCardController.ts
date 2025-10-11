@@ -16,30 +16,32 @@ type FlashCardControllerUseCases = {
 };
 
 type CreateFlashCardRequestBody = {
+  title: string;
   content: string;
   result?: boolean;
 };
 
 type UpdateFlashCardRequestBody = {
   id: string;
+  title?: string;
   content?: string;
   result?: boolean;
 };
 
-export class FlashCardController {
+export class FlashCardController {  
   constructor(private readonly useCases: FlashCardControllerUseCases) {}
 
   createFlashCard = async (request: FastifyRequest, reply: FastifyReply) => {
     const user = request.user;
     const userId = user.data.id;
 
-    const { content, result } = request.body as CreateFlashCardRequestBody;
+    const { content, title } = request.body as CreateFlashCardRequestBody;
 
     const resultOrError = await this.useCases.createFlashCardUseCase.execute({
       content,
-      result,
       userId,
-    });
+      title,
+    }); 
 
     if (resultOrError.isLeft()) {
       return reply.status(400).send(resultOrError.value);
@@ -64,12 +66,13 @@ export class FlashCardController {
   };
 
   updateFlashCard = async (request: FastifyRequest, reply: FastifyReply) => {
-    const { id, content, result } = request.body as UpdateFlashCardRequestBody;
+    const { id, content, title, result } = request.body as UpdateFlashCardRequestBody;
     const flashCardId = ID.create(id as UUID);
 
     const resultOrError = await this.useCases.updateFlashCardUseCase.execute({
       id: flashCardId,
       content,
+      title,
       result,
     });
 

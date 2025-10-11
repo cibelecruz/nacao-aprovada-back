@@ -7,6 +7,7 @@ import { left, right, type Either } from '../../shared/utils/Either.js';
 interface UpdateFlashCardDataProps {
   id: ID;
   content?: string;
+  title?: string;
   result?: boolean;
 }
 
@@ -29,6 +30,10 @@ export class UpdateFlashcardUseCase implements UseCase {
       // Atualiza os campos fornecidos
       if (updateData.content !== undefined) {
         existingFlashCard.updateContent(updateData.content);
+      }
+
+      if (updateData.title !== undefined) {
+        existingFlashCard.updateTitle(updateData.title);
       }
 
       if (updateData.result !== undefined) {

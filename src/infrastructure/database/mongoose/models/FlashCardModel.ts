@@ -6,6 +6,9 @@ export class FlashCardDB extends Base {
   @prop({ required: true })
   content: string;
 
+  @prop({ required: true })
+  title: string;
+
   @prop()
   result: boolean;
 
